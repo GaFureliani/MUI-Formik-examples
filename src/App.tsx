@@ -4,6 +4,8 @@ import { FormikSubmit } from 'components/Formik/FormikSubmit'
 import { Formik, Form } from 'formik'
 import { Fragment, useState } from 'react'
 
+export type InsuredUserProps = { username:string, isInsured:boolean }
+
 const initialValues: {
   checkboxes: string[]
   switches: string[]
@@ -20,6 +22,7 @@ const initialValues: {
   rating_1: number
   rating_2: number
   rating_3: number
+  insured_users: InsuredUserProps[]
 } = {
   checkboxes: [],
   switches: [],
@@ -36,6 +39,7 @@ const initialValues: {
   rating_1: 3.5,
   rating_2: 1.5,
   rating_3: 2.5,
+  insured_users: [{isInsured: false, username: ''}]
 }
 
 function App() {

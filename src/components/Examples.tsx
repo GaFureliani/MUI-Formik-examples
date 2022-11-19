@@ -1,9 +1,13 @@
-import { Grid, Paper, Stack, TextField, Typography } from "@mui/material"
+import { Grid, IconButton, Paper, Stack, TextField, Typography } from "@mui/material"
+import { InsuredUserProps } from "App"
+import { FieldArray } from "formik"
 import { FormikAutoComplete } from "./Formik/FormikAutocomplete"
 import { FormikControlLabel } from "./Formik/FormikControlLabel"
 import { FormikRating } from "./Formik/FormikRating"
 import { FormikSlider } from "./Formik/FormikSlider"
 import { FormikTextField } from "./Formik/FormikTextField"
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import AddIcon from '@mui/icons-material/Add';
 
 export const first_name_autocomplete_options = ['gabriel', 'nika', 'jemal']
 export const last_name_autocomplete_options = ['pureliani', 'gogia', 'jobava']
@@ -107,6 +111,35 @@ export const Examples = () => {
             <FormikRating formikName="rating_1" precision={0.5} />
             <FormikRating formikName="rating_2" precision={0.5} />
             <FormikRating formikName="rating_3" precision={0.5} />
+          </Stack>
+        </Paper>
+      </Grid>
+      <Grid item xs={12} md={6} xl={4}>
+        <Paper sx={{ p: 2 }}>
+          <Typography variant='h4' sx={{mb: 2}}>Array of insured users example</Typography>
+          <Stack sx={{ gap: 2}}>
+            <FieldArray name='insured_users' render={({form, push, remove}) => (
+              <Stack>
+                {
+                  form.values.insured_users.map((u: InsuredUserProps,index: number)=>(
+                  <Stack key={index} direction='row' gap={2}>
+                    <FormikTextField formikName={`insured_users[${index}].username`} />
+                    <FormikControlLabel formikType="switch" formikValue={undefined} label='Is insured' formikName={`insured_users[${index}].isInsured`} />
+                    <IconButton onClick={() => { push({isInsured: false, username: ''} as InsuredUserProps) }}>
+                      <AddIcon />
+                    </IconButton>
+                    <IconButton onClick={() => { 
+                        if(form.values.insured_users.length > 1) {
+                          remove(index) 
+                        }
+                      }}>
+                      <DeleteOutlineIcon />
+                    </IconButton>
+                  </Stack>
+                  ))
+                }
+              </Stack>
+            )} />
           </Stack>
         </Paper>
       </Grid> 
